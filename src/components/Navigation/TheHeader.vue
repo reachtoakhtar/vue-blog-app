@@ -3,7 +3,7 @@
   <header class="the-header">
     <TheSideNavToggle @toggle="$emit('sidenavToggle')" />
     <div class="logo">
-      <router-link to="/">WD BLOG</router-link>
+      <router-link to="/">VUE BLOG</router-link>
     </div>
     <div class="spacer"></div>
     <div class="navigation-items">

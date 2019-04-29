@@ -7,10 +7,12 @@ import http from '@/services/httpService'
 export default {
   namespaced: true,
   state: {
-      loadedPosts: []
+    loadedPosts: [],
+    loadedPost: {}
   },
   getters: {
-    loadedPosts: state => state.loadedPosts
+    loadedPosts: state => state.loadedPosts,
+    loadedPost: state => state.loadedPost
   },
   mutations: {
     setPosts(state, posts) {
@@ -22,11 +24,13 @@ export default {
     editPost(state, editedPost) {
       const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id)
       state.loadedPosts[postIndex] = editedPost
+    },
+    setPost(state, post) {
+      state.loadedPost = post
     }
   },
   actions: {
     initStore({commit}) {
-      window.console.log("Inside init store")
       http.get('https://nuxt-blog-mah.firebaseio.com/posts.json')
         .then((response) => {
           const postArray = []
@@ -53,6 +57,13 @@ export default {
       return http.put('https://nuxt-blog-mah.firebaseio.com/posts' + editedPost.id + '.json', editedPost)
         .then(() => {
           commit('editPost', editedPost)
+        })
+        .catch()
+    },
+    getPost({commit}, id) {
+      return http.get('https://nuxt-blog-mah.firebaseio.com/posts/' + id + '.json')
+        .then(response => {
+          commit('setPost', {...response.data, id: id})
         })
         .catch()
     }
