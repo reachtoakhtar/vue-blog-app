@@ -9,8 +9,8 @@
 </template>
 
 <script>
-//import {createNamespacedHelpers} from 'vuex'
-//const {mapGetters} = createNamespacedHelpers('post')
+import {createNamespacedHelpers} from 'vuex'
+const {mapGetters} = createNamespacedHelpers('post')
 
 import AdminPostForm from '@/components/Admin/AdminPostForm'
 import http from '@/services/httpService'
@@ -23,12 +23,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch('post/getPost', this.$route.params.id)
-    this.loadedPost = this.$store.getters['post/loadedPost']
   },
   computed: {
-    loadedPost() {
-      return this.$store.getters['post/loadedPost']
-    }
+    ...mapGetters(['loadedPost'])
   },
   methods: {
     onSubmitted(editedPost) {
